@@ -1,0 +1,31 @@
+body{
+    width: 90%;
+    height: 600px;
+    margin: auto;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+.container{
+    width: 90%;
+    margin: 2% auto;
+    padding: 2%;
+    border: dashed 2px black;
+}
+
+.navbar-static-bottom {
+    min-height: 120px;
+    margin-top: 50px;
+    padding-top: 35px;
+}
+
+.navbar-fixed-top {
+    margin-bottom: 100px;
+}
+
+a{
+    border: solid 1px gray;
+    border-radius: 5px;
+    padding: 6px;
+}
