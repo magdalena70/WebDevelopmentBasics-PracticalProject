@@ -1,5 +1,6 @@
 <?php include('profileHeader.php'); ?>
 <?php include('config.php'); ?>
+<?php include('../functions/catchErrors.php'); ?>
 
     <div class="row">
         <h2>Please login:</h2>
@@ -28,8 +29,8 @@
 if (isset($_POST['user'])) {
     $username = $_POST['user'];
     $password = $_POST['pass'];
-
     mysql_connect(DB_HOST, DB_USER, DB_PASS);
+    checkConnectionDb();
     mysql_select_db(DB_NAME);
 
     $hashPass = hash('SHA256', $password);
@@ -38,7 +39,7 @@ if (isset($_POST['user'])) {
     $result = mysql_query($loginQuery);
     $row = @mysql_fetch_assoc($result);
     if($row) {
-        session_start();
+        //session_start();
         $_SESSION['user'] = $username;
         $_SESSION['userId'] = $row['Id'];
         $_SESSION['userFirstName'] = $row['FirstName'];
@@ -49,11 +50,11 @@ if (isset($_POST['user'])) {
         header('Location: main.php');
         die;
     } else {
-        $errorMsg = 'Invalid login.';
+       echo 'Invalid login.';
     }
 }
 ?>
 
-<a href="../allUsersPages/register.php">Go register</a>
+<ul><li><a href="../allUsersPages/register.php">Go register</a></li></ul>
 
 <?php include('../allUsersPages/footer.php') ?>

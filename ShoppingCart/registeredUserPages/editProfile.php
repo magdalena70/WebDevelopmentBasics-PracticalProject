@@ -1,5 +1,6 @@
 <?php include('profileHeader.php'); ?>
 <?php include('config.php'); ?>
+<?php include('../functions/catchErrors.php'); ?>
 
 <?php
 if (isset($_SESSION['user'])) :
@@ -7,35 +8,57 @@ if (isset($_SESSION['user'])) :
 
     <div class="row">
         <h2>Edit profile:</h2>
-        <form method="post">
-            First name: <input type="text" name="firstName" value="<?= $_SESSION['userFirstName']; ?>"/>
-            <br />
-            Last name: <input type="text" name="secondName" value="<?= $_SESSION['userLastName']; ?>"/>
-            <br />
+        <form method="post" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="firstName">First name:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter firstName" value="<?= $_SESSION['userFirstName'] ?>" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="secondName">Last name:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="secondName" name="secondName" placeholder="Enter last name" value="<?= $_SESSION['userLastName'] ?>" required="true">
+                </div>
+            </div>
 
             <?php
             if(isset($_SESSION['userEmail'])):
                 ?>
 
-                    Email: <input type="email" name="email" value="<?= $_SESSION['userEmail']; ?>" />
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Email</label>
+                    <div class="col-sm-6">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="<?= $_SESSION['userEmail'] ?>">
+                    </div>
+                </div>
 
                 <?php
                 else:
                     ?>
 
-                    Email: <input type="email" name="email" value="null"/>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="null">
+                        </div>
+                    </div>
 
                     <?php
                 endif;
                 ?>
 
-            <br />
-            <input type="submit" value="Update" />
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-default">Update</button>
+                </div>
+            </div>
         </form>
     </div>
 
 <?php
     if (isset($_POST['firstName'])){
+        checkConnectionDb();
         mysql_connect(DB_HOST, DB_USER, DB_PASS);
         mysql_select_db(DB_NAME);
         $updateSql = "UPDATE Users

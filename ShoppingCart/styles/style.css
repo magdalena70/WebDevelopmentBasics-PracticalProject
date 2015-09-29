@@ -5,13 +5,16 @@ body{
     padding-top: 70px;
     padding-bottom: 70px;
     text-align: center;
+    background: radial-gradient(black, white);
+    color: white;
 }
 
-.container{
+.container-fluid{
     width: 90%;
-    margin: 2% auto;
-    padding: 2%;
+    margin: 10px auto;
+    padding: 20px;
     border: dashed 2px black;
+    box-shadow: 0px 10px 10px black;
 }
 
 .navbar-static-bottom {
@@ -24,8 +27,31 @@ body{
     margin-bottom: 100px;
 }
 
-a{
-    border: solid 1px gray;
-    border-radius: 5px;
-    padding: 6px;
+.row{
+    box-shadow: 0px 5px 10px black;
+}
+
+ul{
+    margin-top: 10px;
+    list-style: none;
+}
+
+ul li a{
+    border: solid 1px black;
+    border-radius: 6px;
+    padding: 4px;
+    color: blue;
+}
+
+.list-group-item{
+    color: blue;
+}
+
+.error{
+    color: orangered;
+}
+
+.list-group-item>a:hover, a:hover, button[type="submit"]:hover{
+    background: black;
+    color: white;
 }

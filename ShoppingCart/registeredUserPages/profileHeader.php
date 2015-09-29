@@ -34,7 +34,7 @@
         <li role="presentation"><a href="logout.php">Logout</a></li>
     </ul>
 </div>
-<div class="container">
+<div class="container-fluid">
     <h1>Welcome to Shopping cart - system</h1>
 
 

@@ -1,5 +1,6 @@
 <?php include('header.php'); ?>
 <?php include('../registeredUserPages/config.php'); ?>
+<?php include('../functions/catchErrors.php'); ?>
 
     <div class="row">
         <h3>Please register:</h3>
@@ -48,6 +49,7 @@ if (isset($_POST['user'])) {
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
 
+    checkConnectionDb();
     mysql_connect(DB_HOST, DB_USER, DB_PASS);
     mysql_select_db(DB_NAME);
 
@@ -56,10 +58,12 @@ if (isset($_POST['user'])) {
             VALUES ('".$username."', '".$password."', '".$firstName."', '".$lastName."')";
     $result = mysql_query($registerSql);
     $row = @mysql_fetch_assoc($result);
+    checkForUniqueUsername();
     header('Location: ../registeredUserPages/login.php');
+    die;
 }
 ?>
 
-    <a href="../registeredUserPages/login.php">Go login</a>
+    <ul><li><a href="../registeredUserPages/login.php">Go login</a></li></ul>
 
 <?php include('footer.php') ?>

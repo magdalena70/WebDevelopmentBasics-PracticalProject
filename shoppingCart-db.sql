@@ -23,7 +23,7 @@ IDENTIFIED BY 'fghjudighfduishgiufdsw';
 CREATE TABLE Products(
 	Id int NOT NULL AUTO_INCREMENT,
 	ProductName varchar(100) NOT NULL,
-	ProductPrice decimal NOT NULL,
+	ProductPrice float NOT NULL,
 	IsSold boolean DEFAULT false,
 	CategoryId int NOT NULL ,
 	UserId int NOT NULL,
@@ -34,23 +34,15 @@ CREATE TABLE Products(
 CREATE TABLE Categories(
 	Id int NOT NULL AUTO_INCREMENT,
 	CategoryName varchar(100) NOT NULL,
-	PromotionId int,
-	PRIMARY KEY(Id),
-	FOREIGN KEY(PromotionId) REFERENCES Promotions(Id)
+	PRIMARY KEY(Id)
 );
-
-CREATE VIEW [Categories List] AS
-SELECT CategoryName,
-FROM Categories
-
---SELECT * FROM [Categories List]
 
 CREATE TABLE ShoppingCarts(
 	Id int NOT NULL AUTO_INCREMENT,
 	UserId int NOT NULL,
 	ProductId int,
-	ProductPrice decimal,
-	TotalSum decimal DEFAULT SUM(ProductPrice)
+	ProductPrice float,
+	TotalSum float DEFAULT SUM(ProductPrice)
 	PRIMARY KEY(Id),
 	FOREIGN KEY(ProductId) REFERENCES Products(Id), 
 	FOREIGN KEY(UserId) KEY REFERENCES Users(Id)
@@ -58,16 +50,13 @@ CREATE TABLE ShoppingCarts(
 
 CREATE TABLE Promotions(
 	Id int NOT NULL AUTO_INCREMENT,
-	Discount  decimal NOT NULL,
-	FromDate date NOT NULL DEFAULT CURDATE(),
-	ToDate date NOT NULL DEFAULT DATE_ADD(FromDate,INTERVAL 3 DAY),
-	UserId int,
-	ProductId int,
+	Content text NOT NULL,
+	Discount  float NOT NULL,
+	FromDate date NOT NULL,
+	ToDate date NOT NULL,
+	PromoType varchar(100) NOt NULL,
 	CategoryId int,
-	PRIMARY KEY(Id),
-	FOREIGN(UserId) KEY REFERENCES Users(Id),
-	FOREIGN KEY(ProductId) REFERENCES Products(Id),
-	FOREIGN KEY(CategoryId) REFERENCES Categories(Id),
+	PRIMARY KEY(Id)
 );
 
 CREATE VIEW [Promotions List] AS
