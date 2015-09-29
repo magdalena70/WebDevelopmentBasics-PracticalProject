@@ -29,8 +29,8 @@
 if (isset($_POST['user'])) {
     $username = $_POST['user'];
     $password = $_POST['pass'];
-    mysql_connect(DB_HOST, DB_USER, DB_PASS);
     checkConnectionDb();
+    mysql_connect(DB_HOST, DB_USER, DB_PASS);
     mysql_select_db(DB_NAME);
 
     $hashPass = hash('SHA256', $password);

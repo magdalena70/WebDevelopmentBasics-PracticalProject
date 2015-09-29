@@ -1,7 +1,9 @@
 <?php
-if (isset($_SESSION['user'])) :
+echo date('d-m-Y');
+//if (isset($_SESSION['user'])) :
     ?>
-    <button type="button" class="btn btn-warning" data-toggle="collapse" data-target="#promotions">Promotions</button>
+
+    <button type="submit" name="promotions" class="btn btn-warning" data-toggle="collapse" data-target="#promotions">Promotions</button>
     <div id="promotions" class="collapse">
 
         <?php
@@ -12,26 +14,24 @@ if (isset($_SESSION['user'])) :
         $result = mysql_query($searchSql);
 
         $row = mysql_fetch_assoc($result);
-        if($row){
+        if($row) {
             $count = 1;
-            while($row) {
+            while ($row) {
                 $content = htmlentities($row['Content']);
                 $discount = floatval($row['Discount']);
                 $fromDate = date($row['FromDate']);
                 $toDate = date($row['ToDate']);
                 $promoType = htmlentities($row['PromoType']);
-                $now = date('Y-m-d');
-                //echo $now;
-                if($fromDate >= $now && $toDate <= $now) {
                 ?>
+
                 <p>
-                    Promotion: <?= $count . "." . $content . " - " . " from " . $fromDate . " to " . $toDate ?></p>
+                    Promotion# <?= $count . "." . $content . " - " . " from <b>" . $fromDate . "</b> to <b>" . $toDate ."</b>"?></p>
+
                 <?php
                 $row = mysql_fetch_assoc($result);
-                }
                 $count++;
             }
-        }else{
+        }else {
             echo "No current promotion";
         }
         ?>
@@ -39,8 +39,8 @@ if (isset($_SESSION['user'])) :
     </div>
 
 <?php
-else:
-    header("Location: ./startPage.php");
-    die;
-endif;
+//else:
+    //header("Location: ./startPage.php");
+    //die;
+//endif;
 ?>

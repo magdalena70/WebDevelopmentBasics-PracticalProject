@@ -1,4 +1,12 @@
 <?php include('allUsersPages/header.php'); ?>
+<?php include('registeredUserPages/config.php'); ?>
+<?php include('functions/catchErrors.php'); ?>
+<?php
+checkConnectionDb();
+mysql_connect(DB_HOST, DB_USER, DB_PASS);
+mysql_select_db(DB_NAME);
+include('./registeredUserPages/currentPromotion.php')
+?>
 
     <div class="container">
         <div class="row">

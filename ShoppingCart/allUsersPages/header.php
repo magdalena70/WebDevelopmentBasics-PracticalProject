@@ -14,7 +14,7 @@
             <ul class="nav nav-tabs">
                 <li role="presentation"><a href="">ABOUT US</a></li>
                 <li role="presentation"><a href="">Forum</a></li>
-                <li role="presentation"><a href="">Promotions</a></li>
+                <li role="presentation"><a href="">Contacts</a></li>
             </ul>
         </div>
         <div class="container">
