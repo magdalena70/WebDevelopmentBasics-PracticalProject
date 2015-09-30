@@ -9,7 +9,7 @@ CREATE TABLE Users(
 	FirstName varchar(50) NOT NULL,
 	SecondName varchar(50) NOT NULL,
 	Email varchar(50),
-	InitialCash decimal,
+	InitialCash decimal(15,2),
 	Reg_date TIMESTAMP,
 	ShoppingCartId int,
 	PromotionId int,
@@ -22,12 +22,12 @@ IDENTIFIED BY 'fghjudighfduishgiufdsw';
 
 CREATE TABLE Products(
 	Id int NOT NULL AUTO_INCREMENT,
-	ProductName varchar(100) NOT NULL,
-	ProductPrice float NOT NULL,
+	ProductName varchar(20) NOT NULL,
+	ProductPrice decimal(15,2) NOT NULL,
 	IsSold boolean DEFAULT false,
 	CategoryId int NOT NULL ,
 	UserId int NOT NULL,
-	PromotionId int,
+	Quantity int NOT NULL,
 	PRIMARY KEY(Id) 
 );
 

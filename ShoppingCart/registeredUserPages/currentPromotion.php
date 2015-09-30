@@ -1,35 +1,36 @@
 <?php
 echo date('d-m-Y');
-//if (isset($_SESSION['user'])) :
     ?>
 
-    <button type="submit" name="promotions" class="btn btn-warning" data-toggle="collapse" data-target="#promotions">Promotions</button>
+    <button type="submit" name="promotions" class="btn btn-warning" data-toggle="collapse" data-target="#promotions">
+        Current Promotion
+    </button>
     <div id="promotions" class="collapse">
 
         <?php
-        $searchSql = "SELECT Content, Discount, PromoType, FromDate, ToDate
-                        FROM Promotions
-                        ORDER BY FromDate ASC
-                        LIMIT 2";
+        $searchSql = "SELECT Content, Discount, FromDate, ToDate, PromoType
+                  FROM Promotions
+                  WHERE FromDate <= CURRENT_DATE()
+                  AND ToDate >= CURRENT_DATE()
+                  ORDER BY Discount DESC LIMIT 1";
         $result = mysql_query($searchSql);
 
         $row = mysql_fetch_assoc($result);
         if($row) {
-            $count = 1;
             while ($row) {
                 $content = htmlentities($row['Content']);
-                $discount = floatval($row['Discount']);
+                $discount = $row['Discount'];
                 $fromDate = date($row['FromDate']);
                 $toDate = date($row['ToDate']);
                 $promoType = htmlentities($row['PromoType']);
-                ?>
+                    ?>
 
-                <p>
-                    Promotion# <?= $count . "." . $content . " - " . " from <b>" . $fromDate . "</b> to <b>" . $toDate ."</b>"?></p>
+                    <h4>
+                        <em><?= $content . " - discount ". $discount . "%, from <b>" . $fromDate . "</b> to <b>" . $toDate . "</b>" ?></em>
+                    </h4>
 
-                <?php
-                $row = mysql_fetch_assoc($result);
-                $count++;
+                    <?php
+                    $row = mysql_fetch_assoc($result);
             }
         }else {
             echo "No current promotion";
@@ -37,10 +38,3 @@ echo date('d-m-Y');
         ?>
 
     </div>
-
-<?php
-//else:
-    //header("Location: ./startPage.php");
-    //die;
-//endif;
-?>

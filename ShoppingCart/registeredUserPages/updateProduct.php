@@ -7,56 +7,60 @@ if (isset($_SESSION['user'])) :
     ?>
 
     <div class="row">
-        <h2>Add Product:</h2>
+        <h2>Update Product:</h2>
         <form method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="productName">Product Name:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="productName" name="productName"
-                           placeholder="Enter product name" required="true">
+                           placeholder="Enter product name" value="<?= $_GET['productName'] ?>" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="productPrice">Product Price:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="productPrice"  name="productPrice"
-                           placeholder="Enter product price" required="true">
+                           placeholder="Enter product price" value="<?= $_GET['productPrice'] ?>" required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="categoryId">Category Id:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="categoryId"  name="categoryId"
+                           placeholder="Enter categoryId" required="true" value="<?= $_GET['categoryId'] ?>">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="quantity">Quantity:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="quantity"  name="quantity"
-                           placeholder="Enter quantity" required="true">
+                           placeholder="Enter quantity" value="<?= $_GET['quantity'] ?>" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <button type="submit" class="btn btn-default">Add</button>
+                    <button type="submit" class="btn btn-default">Update</button>
                 </div>
             </div>
         </form>
     </div>
-<?php
+    <?php
     if (isset($_POST['productName'])) :
-        $productName = $_POST['productName'];
-        $productPrice = $_POST['productPrice'];
-        $roundPrice = number_format((float)$productPrice, 2, '.', '');
-        $quantity = $_POST['quantity'];
-        $categoryId = $_GET['categoryId'];
-        $userId = $_SESSION['userId'];
-
         checkConnectionDb();
         mysql_connect(DB_HOST, DB_USER, DB_PASS);
         mysql_select_db(DB_NAME);
 
-        $addProductSql =
-                "INSERT INTO Products (ProductName,ProductPrice,CategoryId,UserId, Quantity)
-                VALUES ('".$productName."', '".$roundPrice."', '".$categoryId."', '".$userId."', '".$quantity."')";
-        $result = mysql_query($addProductSql);
-        $row = @mysql_fetch_assoc($result);
-        header('Location: main.php?user=' . $_SESSION['user']);
-        die;
+        $updateSql = "UPDATE Products
+              SET ProductName = '" . $_POST['productName'] . "',
+              ProductPrice = '". $_POST['productPrice'] . "',
+              CategoryId = '" . $_POST['categoryId'] . "',
+              Quantity = '" . $_POST['quantity'] . "'
+              WHERE Id = '" . $_GET['productId'] . "'";
+        $result = mysql_query($updateSql);
+        if($result) {
+            header("Location: main.php?user=" . $_SESSION['user']);
+            die;
+        }
     endif;
     include('../allUsersPages/footer.php');
 

@@ -7,7 +7,7 @@ if (isset($_SESSION['user'])) :
     ?>
 
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-9">
             <h2>Products in category <?= $_GET['category'] ?></h2>
             <ul class="list-group">
 
@@ -17,37 +17,53 @@ if (isset($_SESSION['user'])) :
                 mysql_select_db(DB_NAME);
 
                 $categoryId = $_GET['categoryId'];
-                $searchSql = "SELECT ProductName, ProductPrice, CategoryId, isSold
+                $searchSql = "SELECT Id, ProductName, ProductPrice, CategoryId, Quantity
                         FROM Products
                         WHERE CategoryId=$categoryId
-                        ORDER BY ProductPrice";
+                        AND isSold=false
+                        ORDER BY ProductPrice ASC";
                 $result = mysql_query($searchSql);
 
                 $row = mysql_fetch_assoc($result);
                 if($row){
                     while($row){
+                        $productId = $row['Id'];
                         $productName = htmlentities($row['ProductName']);
-                        $productPrice = floatval($row['ProductPrice']);
-                        $roundPrice = number_format((float)$productPrice, 2, '.', '');
-                        $prCatId = $row['CategoryId'];
-                        $isSold = $row['isSold'];
-                        if($isSold == 0){
+                        $productPrice = $row['ProductPrice'];
+                        $quantity = $row['Quantity'];
+                        //$prCatId = $row['CategoryId'];
                             ?>
 
                             <li class='list-group-item'>
-                                <?= $productName . " - " . $roundPrice ?>
+                                <?= $productName . " - " . $productPrice ?>
                                 <a href='' class="well well-sm col-sm-offset-1">Buy</a>
+                                <a href="updateProduct.php?categoryId=<?=$_GET['categoryId']?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>"
+                                   class="well well-sm col-sm-offset-1">
+                                    Update
+                                </a>
+                                <a href="deleteProduct.php?categoryId=<?=$_GET['categoryId']?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>"
+                                   class="well well-sm col-sm-offset-1">
+                                    Delete
+                                </a>
                             </li>
 
                             <?php
                             $row = mysql_fetch_assoc($result);
-                        }
                     }
                 }else{
                     echo "<li>No products.</li>";
                 }
                 ?>
 
+            </ul>
+        </div>
+        <div class="col-sm-3">
+            <ul class="list-group">
+                <li class='list-group-item'>
+                    <a href="addProduct.php?user=<?= $_SESSION['user'] ?>&categoryId=<?=$_GET['categoryId']?>" class="list-group-item well well-sm">
+                        Add Product in this category
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

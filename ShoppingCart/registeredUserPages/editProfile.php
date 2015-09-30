@@ -12,13 +12,15 @@ if (isset($_SESSION['user'])) :
             <div class="form-group">
                 <label class="control-label col-sm-2" for="firstName">First name:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter firstName" value="<?= $_SESSION['userFirstName'] ?>" required="true">
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           placeholder="Enter firstName" value="<?= $_SESSION['userFirstName'] ?>" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="secondName">Last name:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="secondName" name="secondName" placeholder="Enter last name" value="<?= $_SESSION['userLastName'] ?>" required="true">
+                    <input type="text" class="form-control" id="secondName" name="secondName"
+                           placeholder="Enter last name" value="<?= $_SESSION['userLastName'] ?>" required="true">
                 </div>
             </div>
 
@@ -74,13 +76,13 @@ if (isset($_SESSION['user'])) :
                 $_SESSION['userEmail'] = $_POST['email'];
             }
             header("Location: main.php?user=" . $_SESSION['user']);
-            exit;
+            die;
         endif;
     }
 
     if(!isset($_GET['user']) || $_GET['user'] != $_SESSION['user']):
         header("Location: main.php");
-        exit;
+        die;
     endif;
     include('../allUsersPages/footer.php');
 

@@ -27,6 +27,7 @@
 
             <li role="presentation"><a href="main.php?user=<?= $_SESSION['user']; ?>"><?= $_SESSION['user']; ?></a></li>
             <li role="presentation"><a href="editProfile.php?user=<?= $_SESSION['user'] ?>">Edit profile</a></li>
+            <li role="presentation"><a href="addCategory.php?user=<?= $_SESSION['user'] ?>">Add Category</a></li>
 
         <?php
         endif;

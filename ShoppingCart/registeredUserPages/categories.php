@@ -24,9 +24,6 @@ if (isset($_SESSION['user'])) :
                         <a href="listCategoryProducts.php?category=<?=$categoryName?>&categoryId=<?=$_SESSION['categoryId']?>" class="list-group-item">
                             <?= $categoryName ?>
                         </a>
-                        <a href="addProduct.php?user=<?= $_SESSION['user'] ?>&categoryId=<?=$_SESSION['categoryId']?>" class="list-group-item well well-sm">
-                            Add Product
-                        </a>
                     </li>
 
                 <?php

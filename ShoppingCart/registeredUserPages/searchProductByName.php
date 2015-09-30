@@ -34,14 +34,14 @@ if (isset($_SESSION['user'])) :
         if ($row) {
             while($row) {
                 $productName = htmlentities($row['ProductName']);
-                $productPrice = floatval($row['ProductPrice']);
+                $productPrice = $row['ProductPrice'];
                 $isSold = $row['IsSold'];
                 if($isSold == 0) {
-                    $roundPrice = number_format((float)$productPrice, 2, '.', '');
+                    //$roundPrice = number_format((float)$productPrice, 2, '.', '');
                     ?>
 
                     <li class='list-group-item'>
-                        <?= $productName ." - ". $roundPrice?><a href='' class='list-group-item well well-sm'>Buy</a>
+                        <?= $productName ." - ". $productPrice?><a href='' class='list-group-item well well-sm'>Buy</a>
                         </li>
 
                     <?php

@@ -8,13 +8,15 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="username">Username:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" id="username" name="user" placeholder="Enter username" required="true">
+                    <input type="text" class="form-control" id="username" name="user"
+                           placeholder="Enter username" required="true">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="pass">Password:</label>
                 <div class="col-sm-6">
-                    <input type="password" class="form-control" id="pass"  name="pass" placeholder="Enter password" required="true">
+                    <input type="password" class="form-control" id="pass"  name="pass"
+                           placeholder="Enter password" required="true">
                 </div>
             </div>
             <div class="form-group">
@@ -44,6 +46,7 @@ if (isset($_POST['user'])) {
         $_SESSION['userId'] = $row['Id'];
         $_SESSION['userFirstName'] = $row['FirstName'];
         $_SESSION['userLastName'] = $row['SecondName'];
+        $_SESSION['regDate'] = $row['Reg_date'];
         if($row['Email'] != null){
             $_SESSION['userEmail'] = $row['Email'];
         }
