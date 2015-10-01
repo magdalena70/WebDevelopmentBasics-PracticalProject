@@ -17,9 +17,11 @@ if (isset($_SESSION['user'])) :
                 mysql_select_db(DB_NAME);
 
                 $categoryId = $_GET['categoryId'];
-                $searchSql = "SELECT Id, ProductName, ProductPrice, CategoryId, Quantity
+                $userId = $_SESSION['userId'];
+                $searchSql = "SELECT Id, ProductName, ProductPrice, CategoryId, Quantity, Seller_Id
                         FROM Products
                         WHERE CategoryId=$categoryId
+                        AND Seller_Id!=$userId
                         AND isSold=false
                         ORDER BY ProductPrice ASC";
                 $result = mysql_query($searchSql);
@@ -31,12 +33,13 @@ if (isset($_SESSION['user'])) :
                         $productName = htmlentities($row['ProductName']);
                         $productPrice = $row['ProductPrice'];
                         $quantity = $row['Quantity'];
-                        //$prCatId = $row['CategoryId'];
                             ?>
 
                             <li class='list-group-item'>
                                 <?= $productName . " - " . $productPrice ?>
-                                <a href='' class="well well-sm col-sm-offset-1">Buy</a>
+                                <a href='userCart.php?productName=<?= $productName ?>&productPrice=<?= $productPrice ?>' class="well well-sm col-sm-offset-1">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                </a>
                                 <a href="updateProduct.php?categoryId=<?=$_GET['categoryId']?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>"
                                    class="well well-sm col-sm-offset-1">
                                     Update
@@ -62,6 +65,11 @@ if (isset($_SESSION['user'])) :
                 <li class='list-group-item'>
                     <a href="addProduct.php?user=<?= $_SESSION['user'] ?>&categoryId=<?=$_GET['categoryId']?>" class="list-group-item well well-sm">
                         Add Product in this category
+                    </a>
+                </li>
+                <li class='list-group-item'>
+                    <a href="updateCategory.php?user=<?= $_SESSION['user'] ?>&category=<?=$_GET['category']?>&categoryId=<?=$_GET['categoryId']?>" class="list-group-item well well-sm">
+                        Update this category
                     </a>
                 </li>
             </ul>

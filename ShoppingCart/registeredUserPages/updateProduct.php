@@ -24,13 +24,6 @@ if (isset($_SESSION['user'])) :
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="categoryId">Category Id:</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="categoryId"  name="categoryId"
-                           placeholder="Enter categoryId" required="true" value="<?= $_GET['categoryId'] ?>">
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label col-sm-2" for="quantity">Quantity:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="quantity"  name="quantity"
@@ -53,7 +46,7 @@ if (isset($_SESSION['user'])) :
         $updateSql = "UPDATE Products
               SET ProductName = '" . $_POST['productName'] . "',
               ProductPrice = '". $_POST['productPrice'] . "',
-              CategoryId = '" . $_POST['categoryId'] . "',
+              CategoryId = '" . $_GET['categoryId'] . "',
               Quantity = '" . $_POST['quantity'] . "'
               WHERE Id = '" . $_GET['productId'] . "'";
         $result = mysql_query($updateSql);

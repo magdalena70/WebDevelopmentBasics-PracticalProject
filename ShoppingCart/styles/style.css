@@ -59,3 +59,10 @@ ul li a{
 #promotions{
     color: orange;
 }
+
+.date{
+    border: solid 1px orange;
+    border-right: none;
+    border-radius: 3px;
+    padding: 7px;
+}

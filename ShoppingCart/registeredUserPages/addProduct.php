@@ -44,15 +44,15 @@ if (isset($_SESSION['user'])) :
         $roundPrice = number_format((float)$productPrice, 2, '.', '');
         $quantity = $_POST['quantity'];
         $categoryId = $_GET['categoryId'];
-        $userId = $_SESSION['userId'];
+        $seller_Id = $_SESSION['userId'];
 
         checkConnectionDb();
         mysql_connect(DB_HOST, DB_USER, DB_PASS);
         mysql_select_db(DB_NAME);
 
         $addProductSql =
-                "INSERT INTO Products (ProductName,ProductPrice,CategoryId,UserId, Quantity)
-                VALUES ('".$productName."', '".$roundPrice."', '".$categoryId."', '".$userId."', '".$quantity."')";
+                "INSERT INTO Products (ProductName, ProductPrice, CategoryId, Seller_Id, Quantity)
+                VALUES ('".$productName."', '".$roundPrice."', '".$categoryId."', '".$seller_Id."', '".$quantity."')";
         $result = mysql_query($addProductSql);
         $row = @mysql_fetch_assoc($result);
         header('Location: main.php?user=' . $_SESSION['user']);

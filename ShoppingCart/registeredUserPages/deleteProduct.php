@@ -16,23 +16,23 @@ if (isset($_SESSION['user'])) :
     <form method="post" class="form-horizontal" role="form">
         <div class="form-group">
             <div class="col-sm-6">
-                <button type="submit"name="deleteProduct" class="btn btn-default">Delete</button>
+                <button type="submit"name="deleteProduct" class="btn btn-default">
+                    Delete <span class="glyphicon glyphicon-trash"></span>
+                </button>
             </div>
         </div>
     </form>
 
     <?php
     if (isset($_POST['deleteProduct'])) :
-    checkConnectionDb();
-    mysql_connect(DB_HOST, DB_USER, DB_PASS);
-    mysql_select_db(DB_NAME);
+        checkConnectionDb();
+        mysql_connect(DB_HOST, DB_USER, DB_PASS);
+        mysql_select_db(DB_NAME);
 
-    $deleteSql = "DELETE FROM Products WHERE Id = '" . $_GET['productId'] . "'";
-    $result = mysql_query($deleteSql);
-    //if($result) {
+        $deleteSql = "DELETE FROM Products WHERE Id = '" . $_GET['productId'] . "'";
+        $result = mysql_query($deleteSql);
         header("Location: main.php?user=" . $_SESSION['user']);
         die;
-    //}
     endif;
     include('../allUsersPages/footer.php');
 

@@ -23,11 +23,10 @@ if (isset($_SESSION['user'])) :
 
         <?php
         $searchTerm = mysql_real_escape_string($_GET['search']);
-        $searchSql = "SELECT ProductName, ProductPrice, IsSold
-                FROM Products
+        $searchSql = "SELECT * FROM ProductsFromOtherSellers
                 WHERE ProductName
                 LIKE '%$searchTerm%'
-                ORDER BY ProductPrice";
+                AND isSold = false";
         $result = mysql_query($searchSql);
 
         $row = mysql_fetch_assoc($result);
@@ -35,20 +34,20 @@ if (isset($_SESSION['user'])) :
             while($row) {
                 $productName = htmlentities($row['ProductName']);
                 $productPrice = $row['ProductPrice'];
-                $isSold = $row['IsSold'];
-                if($isSold == 0) {
-                    //$roundPrice = number_format((float)$productPrice, 2, '.', '');
-                    ?>
+                $quantity = $row['Quantity'];
+                ?>
 
-                    <li class='list-group-item'>
-                        <?= $productName ." - ". $productPrice?><a href='' class='list-group-item well well-sm'>Buy</a>
-                        </li>
+                <li class='list-group-item'>
+                    <?= $productName ." - ". $productPrice ." quantity: ". $quantity?>
+                    <a href='userCart.php?productName=<?= $productName ?>&productPrice=<?= $productPrice ?>' class='list-group-item'">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </a>
+                </li>
 
                     <?php
                     $row = mysql_fetch_assoc($result);
-                }
             }
-        } else {
+        } else{
             echo "<li>No products.</li>";
         }
         ?>

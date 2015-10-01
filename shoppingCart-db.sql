@@ -3,17 +3,14 @@ CREATE DATABASE ShoppingCart;
 USE ShoppingCart
 
 CREATE TABLE Users(
-	Id int NOT NULL AUTO_INCREMENT,
+	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Username varchar(50) NOT NULL UNIQUE,
 	Password char(96) NOT NULL,
 	FirstName varchar(50) NOT NULL,
 	SecondName varchar(50) NOT NULL,
 	Email varchar(50),
-	InitialCash decimal(15,2),
-	Reg_date TIMESTAMP,
-	ShoppingCartId int,
-	PromotionId int,
-	PRIMARY KEY(Id)
+	TotalPurchases decimal(15,2),
+	Reg_date TIMESTAMP
 );
 
 GRANT SELECT ON ShoppingCart.Users
@@ -21,57 +18,92 @@ TO loginform@localhost
 IDENTIFIED BY 'fghjudighfduishgiufdsw';
 
 CREATE TABLE Products(
-	Id int NOT NULL AUTO_INCREMENT,
+	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ProductName varchar(20) NOT NULL,
 	ProductPrice decimal(15,2) NOT NULL,
 	IsSold boolean DEFAULT false,
 	CategoryId int NOT NULL ,
-	UserId int NOT NULL,
+	Seller_Id int NOT NULL,
 	Quantity int NOT NULL,
-	PRIMARY KEY(Id) 
+	Purchaser_Id int
 );
 
 CREATE TABLE Categories(
-	Id int NOT NULL AUTO_INCREMENT,
-	CategoryName varchar(100) NOT NULL,
-	PRIMARY KEY(Id)
+	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	CategoryName varchar(50) NOT NULL
 );
 
 CREATE TABLE ShoppingCarts(
-	Id int NOT NULL AUTO_INCREMENT,
+	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	UserId int NOT NULL,
-	ProductId int,
-	ProductPrice float,
-	TotalSum float DEFAULT SUM(ProductPrice)
-	PRIMARY KEY(Id),
-	FOREIGN KEY(ProductId) REFERENCES Products(Id), 
-	FOREIGN KEY(UserId) KEY REFERENCES Users(Id)
+	Subtotal decimal(15,2),
+	Total decimal(15,2),
+	Discount decimal(15,2),
+	Purchaser_Id int
 )
 
+ALTER TABLE shoppingcarts
+
+ADD CONSTRAINT FK_users_carts
+FOREIGN KEY (UserId) REFERENCES users(Id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE shoppingcarts
+
+ADD CONSTRAINT FK_carts_products_purchaser
+FOREIGN KEY (Purchaser_Id) REFERENCES products(Purchaser_Id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
 CREATE TABLE Promotions(
-	Id int NOT NULL AUTO_INCREMENT,
+	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	Content text NOT NULL,
-	Discount  float NOT NULL,
+	Discount  decimal(15,2) NOT NULL,
 	FromDate date NOT NULL,
 	ToDate date NOT NULL,
 	PromoType varchar(100) NOt NULL,
-	CategoryId int,
-	PRIMARY KEY(Id)
+	CategoryId int
 );
 
-CREATE VIEW [Promotions List] AS
-SELECT Id, Discount,
+ALTER TABLE Products
+
+ADD CONSTRAINT FK_users_sales
+FOREIGN KEY (Seller_Id) REFERENCES users(Id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE Products
+
+ADD CONSTRAINT FK_users_purchases
+FOREIGN KEY (Purchaser_Id) REFERENCES users(Id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE products
+
+ADD CONSTRAINT FK_roduct_category
+FOREIGN KEY (CategoryId) REFERENCES categories(Id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+
+-- SELECT * FROM ProductsFromCertainSeller WHERE isSold = false --
+
+--Create view products for purchase
+CREATE VIEW ProductsFromOtherSellers AS
+SELECT ProductName, ProductPrice, Quantity, isSold FROM products 
+JOIN users ON users.id!=products.Seller_Id
+ORDER BY ProductPrice;
+
+--SELECT * FROM ProductsFromOtherSellers WHERE isSold = false --
+
+--Create view from current promotion--
+CREATE VIEW CurrentPromotion AS
+SELECT Content, Discount, FromDate, ToDate, PromoType
 FROM Promotions
+WHERE FromDate <= CURRENT_DATE()
+AND ToDate >= CURRENT_DATE()
+ORDER BY Discount DESC LIMIT 1;
 
---SELECT * FROM [Promotions List]
-
-CREATE TABLE UserPurchases(
-	Id int NOT NULL AUTO_INCREMENT,
-	ShoppingCartId int NOT NULL,
-	ShoppingCartTotalSum decimal NOT NULL,
-	PurchasesSum decimal NOT NULL DEFAULT SUM(ShoppingCartsTotalSum)
-	UserId int NOT NULL,
-	PRIMARY KEY(Id), 
-	FOREIGN KEY(UserId) KEY REFERENCES Users(Id),
-	FOREIGN KEY(ShoppingCartId) KEY REFERENCES ShoppingCarts(Id)
-)
+--SELECT * FROM CurrentPromotion--
