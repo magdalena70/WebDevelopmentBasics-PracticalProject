@@ -41,8 +41,8 @@ if (isset($_POST['user'])) {
     $result = mysql_query($loginQuery);
     $row = @mysql_fetch_assoc($result);
     if($row) {
-        //session_start();
         $_SESSION['user'] = $username;
+        $_SESSION['pass'] = $password;
         $_SESSION['userId'] = $row['Id'];
         $_SESSION['userFirstName'] = $row['FirstName'];
         $_SESSION['userLastName'] = $row['SecondName'];

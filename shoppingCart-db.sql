@@ -17,6 +17,12 @@ GRANT SELECT ON ShoppingCart.Users
 TO loginform@localhost
 IDENTIFIED BY 'fghjudighfduishgiufdsw';
 
+CREATE USER 'admin'@'localhost';
+GRANT RELOAD,PROCESS ON *.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+
+ALTER TABLE `users` ADD UNIQUE(`Password`);
+
 CREATE TABLE Products(
 	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ProductName varchar(20) NOT NULL,
@@ -86,9 +92,6 @@ ADD CONSTRAINT FK_roduct_category
 FOREIGN KEY (CategoryId) REFERENCES categories(Id)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
-
-
--- SELECT * FROM ProductsFromCertainSeller WHERE isSold = false --
 
 --Create view products for purchase
 CREATE VIEW ProductsFromOtherSellers AS
