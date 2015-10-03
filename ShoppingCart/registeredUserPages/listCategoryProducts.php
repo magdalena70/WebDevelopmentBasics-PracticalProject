@@ -1,65 +1,80 @@
 <?php include('profileHeader.php'); ?>
 <?php include('config.php'); ?>
 <?php include('../functions/catchErrors.php'); ?>
+<?php include('../functions/Paginator.class.php'); ?>
 
 <?php
-if (isset($_SESSION['user'])) :
+// TO DO - problem with paginate $_GET['']
+if (isset($_SESSION['user'])):
     ?>
 
     <div class="row">
         <div class="col-sm-9">
-            <h2>Products in category <?= $_GET['category'] ?></h2>
-            <ul class="list-group">
+            <h2>Products in <?= $_GET['category'] ?>:</h2>
 
                 <?php
                 checkConnectionDb();
-                mysql_connect(DB_HOST, DB_USER, DB_PASS);
-                mysql_select_db(DB_NAME);
+                $conn = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
+                $limit = PAGN_LIMIT;
+                $page = PAGN_PAGE;
+                $links = PAGN_LINKS;
 
                 $categoryId = $_GET['categoryId'];
                 $userId = $_SESSION['userId'];
-                $searchSql = "SELECT Id, ProductName, ProductPrice, CategoryId, Quantity, Seller_Id
+                $query = "SELECT Id, ProductName, ProductPrice, CategoryId, Quantity, Seller_Id
                         FROM Products
                         WHERE CategoryId=$categoryId
                         AND Seller_Id!=$userId
                         AND isSold=false
                         ORDER BY ProductPrice ASC";
-                $result = mysql_query($searchSql);
 
-                $row = mysql_fetch_assoc($result);
-                if($row){
-                    while($row){
-                        $productId = $row['Id'];
-                        $productName = htmlentities($row['ProductName']);
-                        $productPrice = $row['ProductPrice'];
-                        $quantity = $row['Quantity'];
-                            ?>
+                $Paginator = new Paginator( $conn, $query );
+                $results = $Paginator->getData( $limit, $page );
+                //var_dump($results);
+                //var_dump($_SERVER['PHP_SELF']);
+            if(isset($results->data)){
+            ?>
 
-                            <li class='list-group-item'>
-                                <?= $productName . " - " . $productPrice ?>
-                                <a href='userCart.php?productName=<?= $productName ?>&productPrice=<?= $productPrice ?>' class="well well-sm col-sm-offset-1">
-                                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                                </a>
-                                <a href="updateProduct.php?categoryId=<?=$_GET['categoryId']?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>"
-                                   class="well well-sm col-sm-offset-1">
-                                    Update
-                                </a>
-                                <a href="deleteProduct.php?categoryId=<?=$_GET['categoryId']?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>"
-                                   class="well well-sm col-sm-offset-1">
-                                    Delete
-                                </a>
-                            </li>
+            <?php echo $Paginator->createLinks( $links, 'pagination pagination-sm' ); ?>
+            <table class="table table-condensed table-bordered table-rounded">
+            <thead>
+                <tr>
+                    <th width="30%">ProductName</th>
+                    <th width="30%">ProductPrice</th>
+                    <th width="30%">Quantity</th>
+                    <th bgcolor="black" width="10%">Buy</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                            <?php
-                            $row = mysql_fetch_assoc($result);
-                    }
-                }else{
-                    echo "<li>No products.</li>";
-                }
+            <?php for( $i = 0; $i < count( $results->data ); $i++ ) :
+                $productId = $results->data[$i]['ProductName'];;
+                $productName = htmlentities($results->data[$i]['ProductName']);
+                $productPrice = $results->data[$i]['ProductPrice'];
+                $quantity = $results->data[$i]['Quantity'];
+                ?>
+                <tr>
+                    <td><?= $productName; ?></td>
+                    <td><?= $productName; ?></td>
+                    <td><?= $quantity; ?></td>
+                    <td bgcolor="black">
+                        <a href='userCart.php?productName=<?= $productName ?>&productPrice=<?= $productPrice ?>'>
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                        </a>
+                    </td>
+                </tr>
+            <?php endfor; ?>
+
+            </tbody>
+            </table>
+        </div>
+
+    <?php
+    }else {
+        echo "no data";
+    }
                 ?>
 
-            </ul>
-        </div>
         <div class="col-sm-3">
             <ul class="list-group">
                 <li class='list-group-item'>

@@ -53,14 +53,15 @@ if (isset($_POST['user'])) {
     $password = $_POST['pass'];
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
 
     checkConnectionDb();
     mysql_connect(DB_HOST, DB_USER, DB_PASS);
     mysql_select_db(DB_NAME);
 
     $registerSql =
-        "INSERT INTO Users (Username,Password,FirstName,SecondName)
-            VALUES ('".$username."', '".$password."', '".$firstName."', '".$lastName."')";
+        "INSERT INTO Users (Username, Password, FirstName, SecondName, Email)
+            VALUES ('".$username."', '".$password."', '".$firstName."', '".$lastName."', '".$email."')";
     $result = mysql_query($registerSql);
     $row = @mysql_fetch_assoc($result);
     checkForUniqueUsername();

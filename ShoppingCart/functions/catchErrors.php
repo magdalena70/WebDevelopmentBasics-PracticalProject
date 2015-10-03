@@ -1,6 +1,7 @@
 <?php
 function checkConnectionDb(){
     $link = @mysql_connect(DB_HOST, DB_USER, DB_PASS);
+    //$link = @mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
     if (!is_resource($link)) {
         echo "<div class='error'>
                 <h4>Connexion impossible!</h4>

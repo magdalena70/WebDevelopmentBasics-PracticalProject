@@ -52,16 +52,17 @@ if (isset($_SESSION['user'])) :
             <?php for( $i = 0; $i < count( $results->data ); $i++ ) :
                 $categoryId = $results->data[$i]['CategoryId'];
                 $productId = $results->data[$i]['Id'];
-                $productName = $results->data[$i]['ProductName'];
+                $productName = htmlentities($results->data[$i]['ProductName']);
                 $productPrice = $results->data[$i]['ProductPrice'];
                 $quantity = $results->data[$i]['Quantity'];
+                $categoryName = htmlentities($results->data[$i]['CategoryName']);
                 ?>
 
                 <tr>
-                    <td><?php echo $results->data[$i]['ProductName']; ?></td>
-                    <td><?php echo $results->data[$i]['ProductPrice']; ?></td>
-                    <td><?php echo $results->data[$i]['Quantity']; ?></td>
-                    <td><?php echo $results->data[$i]['CategoryName']; ?></td>
+                    <td><?= $productName; ?></td>
+                    <td><?= $productPrice; ?></td>
+                    <td><?= $quantity; ?></td>
+                    <td><?= $categoryName; ?></td>
                     <td bgcolor="black"><a href="updateProduct.php?categoryId=<?=$categoryId;?>&productId=<?=$productId?>&productName=<?= $productName ?>&productPrice=<?= $productPrice ?>&quantity=<?= $quantity ?>">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a></td>

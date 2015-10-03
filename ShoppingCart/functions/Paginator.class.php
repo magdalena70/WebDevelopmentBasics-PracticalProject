@@ -66,6 +66,9 @@ class Paginator{
 
         for ( $i = $start ; $i <= $end; $i++ ) {
             $class = ( $this->_page == $i ) ? "active" : "";
+            if($this->_limit >= $this->_total && $this->_page == 1){
+                $class= 'disabled';
+            }
             $html .= '<li class="'.$class.'"><a href="?limit=' . $this->_limit . '&page=' . $i . '">' . $i . '</a></li>';
         }
 
@@ -75,7 +78,7 @@ class Paginator{
         }
 
         if($this->_limit == $this->_total) {
-            $html .= '<li><a href="?limit=' . $this->_limit . '&page=' . ($this->_page + 1) . '">&raquo;</a></li>';
+            //$html .= '<li><a href="?limit=' . $this->_limit . '&page=' . ($this->_page - 1) . '">&laquo;</a></li>';
         }else{
             if($this->_page > 1 && $this->_limit > $this->_total){
                 $html .= '<li><a href="?limit=' . $this->_limit . '&page=' . ($this->_page + 1) . '">&raquo;</a></li>';
