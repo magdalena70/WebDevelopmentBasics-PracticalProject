@@ -8,8 +8,8 @@ if (isset($_SESSION['user'])) :
 
         <?php
         $searchSql = "SELECT CategoryName, Id
-                FROM Categories
-                ORDER BY CategoryName";
+                      FROM Categories
+                      ORDER BY CategoryName";
         $result = mysql_query($searchSql);
 
         $row = mysql_fetch_assoc($result);

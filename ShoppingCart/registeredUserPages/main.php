@@ -12,7 +12,7 @@
             mysql_connect(DB_HOST, DB_USER, DB_PASS);
             mysql_select_db(DB_NAME);
             include('currentPromotion.php');
-            include('searchProductByName.php');
+            //include('searchProductByName.php');
             include('categories.php');
         else :
             header('Location: ./startPage.php');

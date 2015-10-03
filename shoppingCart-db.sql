@@ -93,15 +93,7 @@ FOREIGN KEY (CategoryId) REFERENCES categories(Id)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
---Create view products for purchase
-CREATE VIEW ProductsFromOtherSellers AS
-SELECT ProductName, ProductPrice, Quantity, isSold FROM products 
-JOIN users ON users.id!=products.Seller_Id
-ORDER BY ProductPrice;
-
---SELECT * FROM ProductsFromOtherSellers WHERE isSold = false --
-
---Create view from current promotion--
+--Create view for current promotion--
 CREATE VIEW CurrentPromotion AS
 SELECT Content, Discount, FromDate, ToDate, PromoType
 FROM Promotions

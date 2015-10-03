@@ -36,18 +36,28 @@ if (isset($_SESSION['user'])) :
         endif;
             ?>
 
+    <form method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <button type="submit"name="deleteProduct" class="btn btn-default">
+                    Buy <span class="glyphicon glyphicon-shopping-cart"></span>
+                </button>
+            </div>
+        </div>
+    </form>
+
     </div>
 
 <?php
-    checkConnectionDb();
+    // TO DO
+    /*checkConnectionDb();
     mysql_connect(DB_HOST, DB_USER, DB_PASS);
     mysql_select_db(DB_NAME);
 
-    $addShoppingCartSql =
-        "INSERT INTO ShoppingCarts (UserId, Subtotal, Total, Discount, Purchaser_Id)
+    $addShoppingCartSql = "INSERT INTO ShoppingCarts (UserId, Subtotal, Total, Discount, Purchaser_Id)
                 VALUES ('".$_SESSION['userId']."', '".$subtotal."', '".$total."', '".$discount."', '".$_SESSION['userId']."')";
     $result = mysql_query($addShoppingCartSql);
-    $row = @mysql_fetch_assoc($result);
+    $row = @mysql_fetch_assoc($result);*/
     //header('Location: userCart.php?user=' . $_SESSION['user']);
     //die;
 

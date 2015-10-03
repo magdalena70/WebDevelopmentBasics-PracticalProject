@@ -33,6 +33,8 @@
             <li role="presentation"><a href="editProfile.php?user=<?= $_SESSION['user'] ?>">Edit profile</a></li>
             <li role="presentation"><a href="addCategory.php?user=<?= $_SESSION['user'] ?>">Add Category</a></li>
             <li role="presentation"><a href="productsForSale.php?user=<?= $_SESSION['user'] ?>">Products for sale</a></li>
+            <li role="presentation"><a href="searchProductByName.php?user=<?= $_SESSION['user'] ?>">Search products</a></li>
+
 
         <?php
         endif;
