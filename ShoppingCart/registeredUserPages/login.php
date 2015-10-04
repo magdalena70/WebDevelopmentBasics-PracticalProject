@@ -41,14 +41,14 @@ if (isset($_POST['user'])) {
     $result = mysql_query($loginQuery);
     $row = @mysql_fetch_assoc($result);
     if($row) {
-        $_SESSION['user'] = $username;
+        $_SESSION['user'] = htmlentities($username);
         $_SESSION['pass'] = $password;
         $_SESSION['userId'] = $row['Id'];
-        $_SESSION['userFirstName'] = $row['FirstName'];
-        $_SESSION['userLastName'] = $row['SecondName'];
+        $_SESSION['userFirstName'] = htmlentities($row['FirstName']);
+        $_SESSION['userLastName'] = htmlentities($row['SecondName']);
         $_SESSION['regDate'] = $row['Reg_date'];
         if($row['Email'] != null){
-            $_SESSION['userEmail'] = $row['Email'];
+            $_SESSION['userEmail'] = htmlentities($row['Email']);
         }
         header('Location: main.php');
         die;

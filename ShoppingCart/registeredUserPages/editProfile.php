@@ -31,7 +31,8 @@ if (isset($_SESSION['user'])) :
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Email</label>
                     <div class="col-sm-6">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="<?= $_SESSION['userEmail'] ?>">
+                        <input type="email" class="form-control" id="email" name="email"
+                               placeholder="Enter email" value="<?= $_SESSION['userEmail'] ?>">
                     </div>
                 </div>
 
@@ -42,7 +43,8 @@ if (isset($_SESSION['user'])) :
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="email">Email</label>
                         <div class="col-sm-6">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="null">
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="Enter email" value="null">
                         </div>
                     </div>
 

@@ -64,13 +64,14 @@ if (isset($_SESSION['user'])) :
                     <tr>
 
                         <?php
-                        $productName = $results->data[$i]['ProductName'];
+                        $productName = htmlentities($results->data[$i]['ProductName']);
                         $productPrice = $results->data[$i]['ProductPrice'];
+                        $quantity = $results->data[$i]['Quantity'];
                         ?>
 
-                        <td><?php echo $results->data[$i]['ProductName']; ?></td>
-                        <td><?php echo $results->data[$i]['ProductPrice']; ?></td>
-                        <td><?php echo $results->data[$i]['Quantity']; ?></td>
+                        <td><?= $productName; ?></td>
+                        <td><?= $productPrice; ?></td>
+                        <td><?= $quantity; ?></td>
                         <td><a href='userCart.php?productName=<?= $productName ?>&productPrice=<?= $productPrice ?>'>
                                 <span class="glyphicon glyphicon-shopping-cart"></span>
                             </a></td>
